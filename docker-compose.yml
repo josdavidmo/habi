@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:13.4-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init/postgres:/docker-entrypoint-initdb.d:ro
+      - ./storage/postgres:/var/lib/postgresql/data:rw
+    env_file: envs/postgres.env
+    networks:
+      - habi_backend_net
+
+  habi-backend:
+    build: habi-backend
+    links:
+      - postgres:postgres
+    volumes:
+      - ./habi-backend/habi:/opt/project:rw
+    ports:
+      - "8000:8000"
+    networks:
+      - habi_backend_net
+      - habi_frontend_net
+    env_file: habi-backend/habi.env
+
+#  habi-frontend:
+#    build: habi-frontend
+#    links:
+#      - habi-backend:habi-backend
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./habi-frontend/habi:/usr/src/app
+#      - /usr/src/app/node_modules
+#    networks:
+#      - habi_frontend_net
+
+
+networks:
+  habi_backend_net:
+  habi_frontend_net:

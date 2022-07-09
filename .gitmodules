@@ -1,0 +1,6 @@
+[submodule "habi-backend"]
+	path = habi-backend
+	url = git@github.com:josdavidmo/habi-backend.git
+[submodule "habi-frontend"]
+	path = habi-frontend
+	url = git@github.com:josdavidmo/habi-frontend.git
